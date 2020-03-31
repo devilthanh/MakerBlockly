@@ -1,0 +1,48 @@
+{
+  "name": "MakerBlockly",
+  "version": "0.0.1",
+  "description": "MakerBlockly.com",
+  "author": "MakerLab.vn",
+  "main": "./source/makerblockly.js",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "start": "electron ./source",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "release": "build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandeep1995/pingo.git"
+  },
+  "build": {
+    "appId": "com.makerlab.makerblockly",
+    "extraResources": [
+      "arduino-cli.exe"
+    ],
+    "directories": {
+      "output": "setup"
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "icon.ico",
+      "publish": [
+        "github"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico"
+    }
+  },
+  "dependencies": {
+    "electron-updater": "^4.2.5"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "^22.4.1"
+  }
+}

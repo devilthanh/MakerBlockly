@@ -1,0 +1,19 @@
+directories:
+  output: setup
+  buildResources: build
+appId: com.makerlab.makerblockly
+extraResources:
+  - filter:
+      - arduino-cli.exe
+win:
+  target: NSIS
+  icon: icon.ico
+  publish:
+    - github
+nsis:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  installerIcon: icon.ico
+  uninstallerIcon: icon.ico
+electronVersion: 8.2.0

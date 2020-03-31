@@ -1,0 +1,385 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
+	user-select:none;
+	-o-user-select:none;
+}
+
+body {
+	background-color: #C5DFAB;
+	font-family: sans-serif;
+	margin: 0;
+	overflow: hidden;
+}
+
+/* Tabs */
+#tabRow>td {
+	border: 1px solid #ccc;
+}
+
+td.tabon {
+	border-bottom-color: #ddd !important;
+	background-color: #ddd;
+	padding: 5px 19px;
+}
+
+td.taboff {
+	cursor: pointer;
+	padding: 5px 19px;
+}
+
+td.taboff:hover {
+	background-color: #eee;
+}
+
+td.tabmin {
+	border-top-style: none !important;
+	border-left-style: none !important;
+	border-right-style: none !important;
+}
+
+td.tabmax {
+	border-top-style: none !important;
+	border-left-style: none !important;
+	border-right-style: none !important;
+	width: 99%;
+	text-align: right;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+	border: none;
+	height: 80%;
+	width: 94%;
+	top: 50px;
+	bottom: 100px;
+	left: 3%;
+	margin-left: -25;
+	position: absolute;
+}
+
+td {
+	padding: 0;
+	vertical-align: top;
+}
+
+.content {
+	visibility: hidden;
+	margin: 0;
+	padding: 1ex;
+	position: absolute;
+	direction: ltr;
+}
+
+#content_blocks {
+	padding: 0;
+}
+
+.blocklySvg {
+	border-top: none !important;
+}
+
+#content_xml {
+	resize: none;
+	font-family: monospace;
+	overflow: auto;
+}
+
+#content_arduino {
+	resize: none;
+	font-family: monospace;
+	overflow: auto;
+}
+
+/*Content Code Panel*/
+
+#content_code_wrapper {
+	position: absolute;
+	height: 100%;
+	right: 0px;
+	z-index: 1;
+}
+
+#content_code_panel {
+	background-color: #0E9447;
+	color: white;
+	cursor: pointer;
+	padding-left: 0px;
+	width: 50px;
+	height: 100%;
+	font: bold 15px arial, sans-serif;
+	text-align: left;
+	vertical-align: middle;
+}
+
+/*IDE Output Panel*/
+
+#ide_output_wrapper {
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	z-index: 1;
+}
+
+#ide_output_panel {
+	background-color: #0E9447;
+	color: white;
+	cursor: pointer;
+	padding-left: 20px;
+	width: 100%;
+	height: 50px;
+	font: bold 15px arial, sans-serif;
+	text-align: left;
+	vertical-align: middle;
+}
+
+#ide_output_status {
+	padding: 15px 0;
+	display: inline-block;
+}
+
+#ide_output_content {
+	padding: 0 20px;
+	margin: 0px;
+	height: 0px;
+	overflow: auto;
+	transition: height 0.1s ease-out;
+	background-color: #202020;
+	color: white;
+	overflow-y: auto;
+	font: 15px arial, sans-serif;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select:text;
+	user-select:text;
+	-o-user-select:text;
+	line-height: 150%;
+}
+
+#ide_board_button {
+	background-color: #0A8446;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+}
+
+#ide_board_popup {
+	position: absolute;
+	display: inline-block;
+	width: 300px;
+	right: 160px;
+}
+
+#ide_board_content{
+	display: none;
+	position: absolute;
+	background-color: #A1D18A;
+	width: 300px;
+	bottom: 50px;
+	z-index: 1;
+}
+
+#ide_board_content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+#ide_board_content a:hover {background-color: #48A854}
+
+#ide_board_popup:hover #ide_board_content {
+	display: block;
+}
+
+#ide_board_popup:hover #ide_board_button {
+	background-color: #097141;
+}
+
+#ide_port_button {
+	background-color: #0A8446;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+}
+
+#ide_port_popup {
+	position: absolute;
+	display: inline-block;
+	width: 150px;
+	right: 5px;
+}
+
+#ide_port_content{
+	display: none;
+	position: absolute;
+	background-color: #A1D18A;
+	width: 150px;
+	bottom: 50px;
+	z-index: 1;
+}
+
+#ide_port_content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+#ide_port_content a:hover {background-color: #48A854}
+
+#ide_port_popup:hover #ide_port_content {
+	display: block;
+}
+
+#ide_port_popup:hover #ide_port_button {
+	background-color: #097141;
+}
+
+/*Prompt Panel*/
+
+#prompt_faded {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: white;
+	background-color: black;
+	opacity: 0.8;
+	z-index: 3;
+}
+
+#prompt_panel {
+	position: absolute;
+	border-radius: 5px;
+	background-color: #C5DFAB;
+	padding: 20px;
+	z-index: 3;
+	width: 350;
+	height: max-content;
+	top: 0;
+	bottom: 200;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+#prompt_label {
+	width: 100%;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+
+#prompt_input, select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 120%;
+}
+
+#prompt_submit {
+	width: 35%;
+	background-color: #0E9447;
+	color: white;
+	padding: 14px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: left;
+	display: inline-block;
+}
+
+#prompt_submit:hover {
+	background-color: #097335;
+}
+
+#prompt_cancel {
+	width: 35%;
+	background-color: #FF3030;
+	color: white;
+	padding: 14px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
+	display: inline-block;
+}
+
+#prompt_cancel:hover {
+	background-color: #CC1010;
+}
+
+/*Confirm Panel*/
+
+#confirm_faded {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: white;
+	background-color: black;
+	opacity: 0.8;
+	z-index: 3;
+}
+
+#confirm_panel {
+	position: absolute;
+	border-radius: 5px;
+	background-color: #C5DFAB;
+	padding: 20px;
+	z-index: 3;
+	width: 350;
+	height: max-content;
+	top: 0;
+	bottom: 200;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+#confirm_label {
+	width: 100%;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+
+#confirm_submit {
+	width: 35%;
+	background-color: #0E9447;
+	color: white;
+	padding: 14px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: left;
+	display: inline-block;
+}
+
+#confirm_submit:hover {
+	background-color: #097335;
+}
+
+#confirm_cancel {
+	width: 35%;
+	background-color: #FF3030;
+	color: white;
+	padding: 14px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
+	display: inline-block;
+}
+
+#confirm_cancel:hover {
+	background-color: #CC1010;
+}
