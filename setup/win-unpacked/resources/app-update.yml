@@ -1,4 +1,7 @@
-owner: sandeep1995
-repo: pingo
+owner: devilthanh
+repo: MakerBlockly
 provider: github
+token: 0066b5933523b58c443d8c2cddd68a302716e725
+private: false
+publishAutoUpdate: true
 updaterCacheDirName: makerblockly-updater

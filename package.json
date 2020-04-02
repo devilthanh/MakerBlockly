@@ -1,34 +1,39 @@
 {
   "name": "MakerBlockly",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "MakerBlockly.com",
   "author": "MakerLab.vn",
-  "main": "./source/makerblockly.js",
+  "main": "./main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "start": "electron ./source",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "release": "build"
+    "start": "electron .",
+    "package": "electron-builder --dir",
+    "build": "electron-builder",
+    "release": "electron-builder --publish=always"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/devilthanh/MakerBlockly.git"
-  },
+  "repository": "github:devilthanh/MakerBlockly",
   "build": {
     "appId": "com.makerlab.makerblockly",
-    "extraResources": [
-      "arduino-cli.exe"
+    "productName": "MakerBlockly",
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "MakerBlockly",
+        "owner": "devilthanh",
+        "token": "0066b5933523b58c443d8c2cddd68a302716e725",
+        "private": false,
+        "publishAutoUpdate": true
+      }
+    ],
+    "extraFiles": [
+      "resources/arduino-cli.exe"
     ],
     "directories": {
       "output": "setup"
     },
     "win": {
       "target": "NSIS",
-      "icon": "icon.ico",
-      "publish": [
-        "github"
-      ]
+      "icon": "icon.ico"
     },
     "nsis": {
       "oneClick": false,
