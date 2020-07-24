@@ -11,7 +11,7 @@ const {autoUpdater} = require("electron-updater");
 // electron-packager . --overwrite --asar --extra-resource="resource1.exe" --extra-resource="resource2.dll" --platform=win32 --arch=ia32 --icon=./frontend/dist/assets/icon.ico --prune=true --out=./build --version-string.ProductName='Hot Pan de sal'
 
 uploadSketch = function(board, port, path){								
-	var uploadCmd = ChildProcess.spawn('cd resources && arduino-cli core install arduino:avr && arduino-cli core update-index && arduino-cli compile -v --upload --port ' + port + ' --optimize-for-debug --fqbn ' + board + ' \"' + path + '\"', {
+	var uploadCmd = ChildProcess.spawn('cd resources && arduino-cli core update-index && arduino-cli core install arduino:avr && arduino-cli compile -v --upload --port ' + port + ' --fqbn ' + board + ' \"' + path + '\"', {
 		shell: true
 	});
 	
@@ -28,18 +28,38 @@ uploadSketch = function(board, port, path){
 	});
 }
 
-let mainWindow;
-const gotTheLock = app.requestSingleInstanceLock();
+getSerialPorts = function(){	
+	var str = "";
+	var uploadCmd = ChildProcess.spawn('cd resources && arduino-cli board list', {
+		shell: true
+	});
+	
+	uploadCmd.stdout.on('data', (data) => {
+		str += data.toString();
+		console.log(str);
+	});
+	
+	uploadCmd.stderr.on('data', (data) => {
+		console.log(str);
+	});
+	
+	uploadCmd.on('close', (code) => {
+		mainWindow.webContents.send('getSerialPorts', str);
+	});
+}
 
-if (!gotTheLock) {
-	app.quit();
-}else {
-	app.on('second-instance', (event, commandLine, workingDirectory) => {
-		if (mainWindow) {
-			if (mainWindow.isMinimized()) mainWindow.restore();
-			mainWindow.focus();
-		}
-	})
+let mainWindow;
+// const gotTheLock = app.requestSingleInstanceLock();
+
+// if (!gotTheLock) {
+	// app.quit();
+// }else {
+	// app.on('second-instance', (event, commandLine, workingDirectory) => {
+		// if (mainWindow) {
+			// if (mainWindow.isMinimized()) mainWindow.restore();
+			// mainWindow.focus();
+		// }
+	// })
 
 	app.on('ready',createWindow);
 
@@ -56,12 +76,16 @@ if (!gotTheLock) {
 	});
 	
 	ipcMain.on('code', (event, code) => {
-		var fileDir = home + '/Documents/Maker Blockly/upload_sketch';
+		var fileDir = home + '/Documents/MakerBlockly/upload_sketch';
 		fileManager.mkdirSync(fileDir, {recursive: true});
 		fileManager.writeFile(fileDir + '/upload_sketch.ino', code, { recursive: true }, function (err) {
 			if (err) throw err;
 		}); 
 		uploadSketch('arduino:avr:uno', 'COM4', fileDir);
+	});
+	
+	ipcMain.on('getSerialPorts', (event, code) => {
+		getSerialPorts();
 	});
 	
 	autoUpdater.on('checking-for-update', () => {
@@ -86,13 +110,13 @@ if (!gotTheLock) {
 		// log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
 		// dispatch(log_message)
 
-		mainWindow.webContents.send('output', 'stdout:' + 'download-progress: ' + progressObj.percent + '.\n');
+		mainWindow.webContents.send('output', 'stdout:' + 'downloading: ' + Math.round(progressObj.percent*10)/10 + '%.\n');
 	});
 
 	autoUpdater.on('update-downloaded', (info) => {
 		mainWindow.webContents.send('output', 'Update downloaded.\n');
 	})
-}
+// }
 
 function createWindow(){
 	app.allowRendererProcessReuse = true;
@@ -113,6 +137,7 @@ function createWindow(){
 
 	mainWindow.webContents.on('did-finish-load', function() {
 		// splash.destroy();
+		mainWindow.webContents.send('version', app.getVersion());
 		mainWindow.maximize();
 		mainWindow.show();
 		autoUpdater.checkForUpdatesAndNotify();

@@ -15,106 +15,78 @@ body {
 	overflow: hidden;
 }
 
-/* Tabs */
-#tabRow>td {
-	border: 1px solid #ccc;
-}
-
-td.tabon {
-	border-bottom-color: #ddd !important;
-	background-color: #ddd;
-	padding: 5px 19px;
-}
-
-td.taboff {
-	cursor: pointer;
-	padding: 5px 19px;
-}
-
-td.taboff:hover {
-	background-color: #eee;
-}
-
-td.tabmin {
-	border-top-style: none !important;
-	border-left-style: none !important;
-	border-right-style: none !important;
-}
-
-td.tabmax {
-	border-top-style: none !important;
-	border-left-style: none !important;
-	border-right-style: none !important;
-	width: 99%;
-	text-align: right;
-}
-
-table {
-	border-collapse: collapse;
-	margin: 0;
-	padding: 0;
-	border: none;
-	height: 80%;
-	width: 94%;
-	top: 50px;
-	bottom: 100px;
-	left: 3%;
-	margin-left: -25;
+#main_screen {
+	width: 100%;
+	height: 100%;
 	position: absolute;
 }
 
-td {
-	padding: 0;
-	vertical-align: top;
-}
-
-.content {
-	visibility: hidden;
-	margin: 0;
-	padding: 1ex;
+#content_area {
+	top: 70px;
+	bottom: 70px;
+	left: 10px;
+	right: 10px;
 	position: absolute;
-	direction: ltr;
-}
-
-#content_blocks {
-	padding: 0;
-}
-
-.blocklySvg {
-	border-top: none !important;
-}
-
-#content_xml {
-	resize: none;
-	font-family: monospace;
-	overflow: auto;
-}
-
-#content_arduino {
-	resize: none;
-	font-family: monospace;
-	overflow: auto;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 /*Content Code Panel*/
 
 #content_code_wrapper {
+	padding: 0px;
+	margin: 0px;
+	top: 70px;
+	bottom: 70px;
+	right: 10px;
 	position: absolute;
-	height: 100%;
-	right: 0px;
 	z-index: 1;
+	font-size: 0;
 }
 
 #content_code_panel {
+	width: max-content;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	transition: right 0.1s;
+	padding: 0px;
+	margin: 0px;
+}
+
+#content_code_content {
+	padding: 0px;
+	margin: 0px;
+	width: 0px;
+	height: 100%;
+	overflow: auto;
+	transition: width 0.1s;
+	background-color: #202020;
+	color: white;
+	font: 15px arial, sans-serif;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select:text;
+	user-select:text;
+	-o-user-select:text;
+	line-height: 150%;
+	position: absolute;
+	right: 0px;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
+}
+
+#content_code_status {
+	width: 50px;
+	height: 70px;
 	background-color: #0E9447;
 	color: white;
 	cursor: pointer;
-	padding-left: 0px;
-	width: 50px;
-	height: 100%;
-	font: bold 15px arial, sans-serif;
-	text-align: left;
-	vertical-align: middle;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
+}
+
+#content_code_status:hover {
+	background-color: #097335;
 }
 
 /*IDE Output Panel*/
@@ -124,6 +96,7 @@ td {
 	width: 100%;
 	bottom: 0px;
 	z-index: 1;
+	box-shadow: 0 -2px 5px 2px rgba(0, 0, 0, 0.5), 0 -2px 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #ide_output_panel {
@@ -183,16 +156,17 @@ td {
 	width: 300px;
 	bottom: 50px;
 	z-index: 1;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
-#ide_board_content a {
+#ide_board_content div {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 }
 
-#ide_board_content a:hover {background-color: #48A854}
+#ide_board_content div:hover {background-color: #48A854}
 
 #ide_board_popup:hover #ide_board_content {
 	display: block;
@@ -213,7 +187,7 @@ td {
 #ide_port_popup {
 	position: absolute;
 	display: inline-block;
-	width: 150px;
+	width: 300px;
 	right: 5px;
 }
 
@@ -224,23 +198,29 @@ td {
 	width: 150px;
 	bottom: 50px;
 	z-index: 1;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
-#ide_port_content a {
+.ide_port {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
-	display: block;
+	display: block;	
+	width: 150px;
 }
 
-#ide_port_content a:hover {background-color: #48A854}
-
-#ide_port_popup:hover #ide_port_content {
-	display: block;
+.ide_port:hover {
+	background-color: #48A854;
 }
+	
 
 #ide_port_popup:hover #ide_port_button {
 	background-color: #097141;
+}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
 }
 
 /*Prompt Panel*/
@@ -268,6 +248,7 @@ td {
 	left: 0;
 	right: 0;
 	margin: auto;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #prompt_label {
@@ -279,12 +260,13 @@ td {
 #prompt_input, select {
 	width: 100%;
 	padding: 12px 20px;
-	margin: 8px 0;
+	margin-bottom: 20px;
 	display: inline-block;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
 	font-size: 120%;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #prompt_submit {
@@ -297,6 +279,7 @@ td {
 	cursor: pointer;
 	float: left;
 	display: inline-block;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #prompt_submit:hover {
@@ -313,6 +296,7 @@ td {
 	cursor: pointer;
 	float: right;
 	display: inline-block;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #prompt_cancel:hover {
@@ -344,6 +328,7 @@ td {
 	left: 0;
 	right: 0;
 	margin: auto;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #confirm_label {
@@ -362,6 +347,7 @@ td {
 	cursor: pointer;
 	float: left;
 	display: inline-block;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #confirm_submit:hover {
@@ -378,8 +364,22 @@ td {
 	cursor: pointer;
 	float: right;
 	display: inline-block;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 #confirm_cancel:hover {
 	background-color: #CC1010;
+}
+
+/* Edit Tools*/
+/*
+.blocklyToolboxDiv {
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5), 0 0 5px 2px rgba(0, 0, 0, 0.5);
+}
+	*/
+	
+.blocklyTreeLabel {
+	font-weight: bold;
+	font-style: italic;
+	font-family: Arial, Helvetica, sans-serif;
 }

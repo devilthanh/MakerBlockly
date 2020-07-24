@@ -4,34 +4,22 @@ goog.require('Blockly.Utils');
 
 MakerBlockly = {};
 MakerBlockly.maxHeight = 300;
-MakerBlockly.Workspaces = ['blocks', 'arduino', 'xml'];
-MakerBlockly.selectedWorkspace = 'blocks';
 MakerBlockly.promptFunction = null;
 MakerBlockly.confirmFunction = null;
 
 MakerBlockly.init = function() {
 	var container = document.getElementById('content_area');
-	var onresize = function(e) {
+	var onresize = function() {
 		var bound = MakerBlockly.getElementBound(container);
 		
-		for (var i = 0; i < MakerBlockly.Workspaces.length; i++) {
-			var element = document.getElementById('content_' + MakerBlockly.Workspaces[i]);
-			element.style.top = bound.y + 'px';
-			element.style.left = bound.x + 'px';
-			element.style.height = bound.height + 'px';
-			element.style.height = (2 * bound.height - element.offsetHeight) + 'px';
-			element.style.width = bound.width + 'px';
-			element.style.width = (2 * bound.width - element.offsetWidth) + 'px';
-		}
-		
 		if (Blockly.mainWorkspace.toolbox_.width) {
-			document.getElementById('tab_blocks').style.minWidth = Blockly.mainWorkspace.toolbox_.width - 38 + 'px';
+			document.getElementById('content_area').style.minWidth = Blockly.mainWorkspace.toolbox_.width - 38 + 'px';
 		}
 	};	
 	
-	window.addEventListener('resize', onresize, false);
+	window.addEventListener('resize', onresize);
 	var toolbox = document.getElementById('toolbox');
-	Blockly.inject(document.getElementById('content_blocks'),{	
+	Blockly.inject(document.getElementById('content_area'),{	
 											grid: false,
 											comments: true,
 											collapse: true,
@@ -51,7 +39,8 @@ MakerBlockly.init = function() {
 										});
 	
 	MakerBlockly.autoSaveAndRestore();
-	onresize(false);
+	Blockly.mainWorkspace.addChangeListener(MakerBlockly.renderContent);
+	onresize();
 	
 	var ide_output_panel = document.getElementById('ide_output_panel');
 	ide_output_panel.addEventListener('click', function(event) {
@@ -65,59 +54,76 @@ MakerBlockly.init = function() {
 			content.style.padding = '10 20px';
 		} 
 	});
+	
+	var content_code_status = document.getElementById('content_code_status');
+	content_code_status.addEventListener('click', function(event) {
+		if (content_code_status !== event.target) return;
+		var content = document.getElementById('content_code_content');
+		if (content.style.width ){
+			content.style.width  = null;
+			content.style.padding = '0px';
+			document.getElementById('content_code_panel').style.right = 0;
+			document.getElementById('content_area').style.right = 10;
+			Blockly.asyncSvgResize(Blockly.mainWorkspace);
+
+		} else {
+			content.style.width  = 400;
+			content.style.padding = '0px';
+			document.getElementById('content_code_panel').style.right = 400;
+			document.getElementById('content_area').style.right = 410;
+			Blockly.asyncSvgResize(Blockly.mainWorkspace);
+		}
+	});
+	
+	var ide_port_button = document.getElementById('ide_port_button');
+	var ide_port_content = document.getElementById('ide_port_content');
+	ide_port_button.addEventListener('click', function(event) {
+		if (ide_port_button !== event.target) return;
+		ipcRenderer.send('getSerialPorts', '');
+		ide_port_button.classList.add("disabledbutton");
+		ide_port_content.style.display = 'none';
+	});
 }
 
 MakerBlockly.onWorkspaceChange = function(workspace) {
-	if(document.getElementById('tab_xml').className == 'tabon') {
-		var xmlTextarea = document.getElementById('content_xml');
-		var xmlText = xmlTextarea.value;
-		var xmlDom = null;
-		try {
-			xmlDom = Blockly.Xml.textToDom(xmlText);
-		} catch (e) {
-			MakerBlockly.addOutput('<span style="color:tomato">Failed to convert, discarded changes</span>\n');
-			return;
-		}
+	// if(document.getElementById('tab_xml').className == 'tabon') {
+		// var xmlTextarea = document.getElementById('content_xml');
+		// var xmlText = xmlTextarea.value;
+		// var xmlDom = null;
+		// try {
+			// xmlDom = Blockly.Xml.textToDom(xmlText);
+		// } catch (e) {
+			// MakerBlockly.addOutput('<span style="color:tomato">Failed to convert, discarded changes</span>\n');
+			// return;
+		// }
 		
-		if (xmlDom) {
-			Blockly.mainWorkspace.clear();
-			Blockly.Xml.domToWorkspace(xmlDom, Blockly.mainWorkspace);
-		}
-	}
+		// if (xmlDom) {
+			// Blockly.mainWorkspace.clear();
+			// Blockly.Xml.domToWorkspace(xmlDom, Blockly.mainWorkspace);
+		// }
+	// }
 
-	if (document.getElementById('tab_blocks').className == 'tabon') {
-		Blockly.mainWorkspace.setVisible(false);
-	}
+	// if (document.getElementById('tab_blocks').className == 'tabon') {
+		// Blockly.mainWorkspace.setVisible(false);
+	// }
 	
-	for (var i = 0; i < MakerBlockly.Workspaces.length; i++) {
-		document.getElementById('tab_' + MakerBlockly.Workspaces[i]).className = 'taboff';
-		document.getElementById('content_' + MakerBlockly.Workspaces[i]).style.visibility = 'hidden';
-	}
+	// for (var i = 0; i < MakerBlockly.Workspaces.length; i++) {
+		// document.getElementById('tab_' + MakerBlockly.Workspaces[i]).className = 'taboff';
+		// document.getElementById('content_' + MakerBlockly.Workspaces[i]).style.visibility = 'hidden';
+	// }
 
-	MakerBlockly.selectedWorkspace = workspace;
-	document.getElementById('tab_' + workspace).className = 'tabon';
-	document.getElementById('content_' + workspace).style.visibility = 'visible';
-	MakerBlockly.renderContent();
-	if (workspace == 'blocks') {
-		Blockly.mainWorkspace.setVisible(true);
-	}		
+	// MakerBlockly.selectedWorkspace = workspace;
+	// document.getElementById('tab_' + workspace).className = 'tabon';
+	// document.getElementById('content_' + workspace).style.visibility = 'visible';
+	// MakerBlockly.renderContent();
+	// if (workspace == 'blocks') {
+		// Blockly.mainWorkspace.setVisible(true);
+	// }		
 }
 
-MakerBlockly.renderContent = function() {
-	var content = document.getElementById('content_' + MakerBlockly.selectedWorkspace);
-	
-	if (content.id == 'content_blocks') {
-		Blockly.mainWorkspace.render();
-	} else if (content.id == 'content_xml') {
-		var content_xml = document.getElementById('content_xml');
-		var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-		var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-		content_xml.value = xmlText;
-		content_xml.focus();
-	} else if (content.id == 'content_arduino') {
-		var content_arduino = document.getElementById('content_arduino');
-		content_arduino.value = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
-		content_arduino.focus();
+MakerBlockly.renderContent = function(event) {
+	if(Blockly.dragMode_ == 0) {
+		document.getElementById('content_code_pre').innerHTML = Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace);
 	}
 }
 
@@ -342,4 +348,31 @@ ipcRenderer.on('output', (event, text) => {
 	}else{
 		// spinner.stop();
 	}
+});
+
+ipcRenderer.on('getSerialPorts', (event, text) => {
+	var arr = text.split('\n');
+	var ports = [];
+	for(var i in arr){
+		if(arr[i] != "") ports.push(arr[i]);
+	}
+	ide_port_content = document.getElementById('ide_port_content');
+	if(ports[0] != 'No boards found.') {
+		ports.shift();
+		ide_port_content.innerHTML = '';
+		for(var i in ports){
+			var port = ports[i].split(' ')[0];
+			console.log(port);				
+			var el = document.createElement('div');
+			el.innerHTML = port;
+			el.className = 'ide_port';
+			ide_port_content.append(el);
+		}		
+		ide_port_content.style.display = 'block';
+	}
+	document.getElementById('ide_port_button').classList.remove("disabledbutton");
+});
+
+ipcRenderer.on('version', (event, text) => {
+	document.getElementById('ide_output_status').innerHTML = 'IDE Output: ' + text;
 });

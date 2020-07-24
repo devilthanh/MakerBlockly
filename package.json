@@ -1,6 +1,6 @@
 {
   "name": "MakerBlockly",
-  "version": "0.0.5",
+  "version": "0.0.13",
   "description": "MakerBlockly.com",
   "author": "MakerLab.vn",
   "main": "./main.js",
@@ -9,7 +9,7 @@
     "start": "electron .",
     "package": "electron-builder --dir",
     "build": "electron-builder",
-    "release": "electron-builder --publish=always"
+    "release": "electron-builder --publish always && rmdir setup /q/s"
   },
   "repository": "github:devilthanh/MakerBlockly",
   "build": {

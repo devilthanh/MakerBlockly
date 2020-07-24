@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset='utf-8'>
-	<title>Maker Blockly</title>
+	<title>MakerBlockly</title>
 	<link rel='stylesheet' href='./makerblockly.css'>
 	<script type='text/javascript' src='./spin.js'></script>
 	<script type='text/javascript' src='../blockly_compressed_2.js'></script>
@@ -29,42 +29,27 @@
 		</div>
 	</div>
 	<div id='main_screen'>
-		<table width='100%' style='top:10px; margin-top: 0px'>
-			<tr id='tabRow' height='1em'>
-				<td id='tab_blocks' class='tabon' onclick='MakerBlockly.onWorkspaceChange("blocks")'>Blocks</td>
-				<td class='tabmin'>&nbsp;</td>
-				<td id='tab_arduino' class='taboff' onclick='MakerBlockly.onWorkspaceChange("arduino")'>Arduino</td>
-				<td class='tabmin'>&nbsp;</td>
-				<td id='tab_xml' class='taboff' onclick='MakerBlockly.onWorkspaceChange("xml")'>XML</td>
-				<td class='tabmax'>
-					<button type='button' onclick='MakerBlockly.upload()'>Upload</button>
-					<button onclick='MakerBlockly.reset()'>Reset</button>
-					<a id='saveCodeBlob' style='display: none'></a><button onclick='MakerBlockly.saveCode()'>Save Arduino Code</button>
-					<a id='saveXMLBlob' style='display: none'></a><button onclick='MakerBlockly.saveXML()'>Save Project</button>
-					<button id='fakeload'>Load Project</button>
-					<input type='file' id='load' style='display: none;'/>
-				</td>
-			</tr>
-		</table>
-		<table height='100%' width='100%'>
-			<tr>
-				<td height='99%' id='content_area'></td>
-			</tr>
-		</table>
-		
-		<div id='content_blocks' class='content'></div>
-		<textarea id='content_arduino' class='content' readonly wrap='off'></textarea>
-		<textarea id='content_xml' class='content' readonly wrap='off'></textarea>
+		<div width='100%' style='top:10px; margin-top: 0px'>
+			<button type='button' onclick='MakerBlockly.upload()'>Upload</button>
+			<button onclick='MakerBlockly.reset()'>Reset</button>
+			<a id='saveCodeBlob' style='display: none'></a><button onclick='MakerBlockly.saveCode()'>Save Arduino Code</button>
+			<a id='saveXMLBlob' style='display: none'></a><button onclick='MakerBlockly.saveXML()'>Save Project</button>
+			<button id='fakeload'>Load Project</button>
+			<input type='file' id='load' style='display: none;'/>
+		</div>
+		<div id='content_area'></div>
 		
 		<div id='content_code_wrapper'>
-			<div id='content_code_panel'>
-				<div id='content_code_status'>IDE Output</div>
+			<div id='content_code_content'>
+				<pre id='content_code_pre' style='padding: 0px 20px'></pre>
 			</div>
-			<pre id='content_code_content'></pre>
+			<div id='content_code_panel'>
+				<div id='content_code_status'>a</div>
+			</div>
 		</div>
 		<div id='ide_output_wrapper'>
 			<div id='ide_output_panel'>
-				<div id='ide_output_status'>IDE Output: 0.0.5</div>
+				<div id='ide_output_status'>IDE Output: 0.0.6</div>
 				<div id='ide_board_popup'>
 					<div id='ide_board_button'>Board:</div>
 					<div id='ide_board_content'>
@@ -75,11 +60,7 @@
 				</div>
 				<div id='ide_port_popup'>
 					<div id='ide_port_button'>Port:</div>
-					<div id='ide_port_content'>
-						<a href='#'>Link 1</a>
-						<a href='#'>Link 2</a>
-						<a href='#'>Link 3</a>
-					</div>
+					<div id='ide_port_content'></div>
 				</div>	
 			</div>
 			<pre id='ide_output_content'></pre>
